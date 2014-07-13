@@ -83,45 +83,45 @@ applications”</i></span></font><i>与数组中的那个</i><font face="Calibri
 <h3 class="cjk">演示：</h3>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>1</b></span></font><b>：</b>在开始这个任务之前，先从<font face="Calibri, serif"><span lang="en-US">gensim</span></font>引入<font face="Calibri, serif"><span lang="en-US">corpora,
 models</span></font>和<font face="Calibri, serif"><span lang="en-US">similarities</span></font>这三个类。并将所有的<font face="Calibri, serif"><span lang="en-US">queries</span></font>放到<font face="Calibri, serif"><span lang="en-US">documents</span></font>列表中。</p>
-<p style="margin-bottom: 0cm"><img src="1.png" name="Picture 1" align="BOTTOM" border="0" height="145" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/1.png" name="Picture 1" align="BOTTOM" border="0" height="145" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>2</b></span></font><b>：</b>将<font face="Calibri, serif"><span lang="en-US">document</span></font>中的每个<font face="Calibri, serif"><span lang="en-US">query</span></font>按照空格分隔成<font face="Calibri, serif"><span lang="en-US">word</span></font>，并将其转换成小写。该步骤可选，在步骤<font face="Calibri, serif"><span lang="en-US">3</span></font>中有替代方法。</p>
-<p style="margin-bottom: 0cm"><img src="2.png" name="Picture 2" align="BOTTOM" border="0" height="166" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/2.png" name="Picture 2" align="BOTTOM" border="0" height="166" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>3</b></span></font><b>：</b>英文中<font face="Calibri, serif"><span lang="en-US">word</span></font>之间一般用空格隔开，但是也有很多其他情况，比如标点符号，分隔符，换行符等。为了弥补步骤<font face="Calibri, serif"><span lang="en-US">2</span></font>中的简单空格分词，带来的不准确性，我们通过引入<font face="Calibri, serif"><span lang="en-US">nltk</span></font>工具中的<font face="Calibri, serif"><span lang="en-US">tokenize</span></font>来实现。结果<font face="Calibri, serif"><span lang="en-US">texts_tokenize</span></font>是一个二维数组，每一行代表一个<font face="Calibri, serif"><span lang="en-US">query</span></font>，列代表词（<font face="Calibri, serif"><span lang="en-US">token</span></font>）。</p>
-<p style="margin-bottom: 0cm"><img src="3.png" name="Picture 3" align="BOTTOM" border="0" height="179" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/iamges/3.png" name="Picture 3" align="BOTTOM" border="0" height="179" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>4</b></span></font><b>：</b>英文中有些词是没有意义的，比如停用词（<font face="Calibri, serif"><span lang="en-US">stopwords</span></font>）
 <font face="Calibri, serif"><span lang="en-US">I, was
 ,he</span></font>等，所以我们在处理的时候，也要将那些词语过滤掉。我们使用<font face="Calibri, serif"><span lang="en-US">nltk</span></font>中的停用词列表，然后逐个词过滤。</p>
-<p style="margin-bottom: 0cm"><img src="4.png" name="Picture 4" align="BOTTOM" border="0" height="354" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/4.png" name="Picture 4" align="BOTTOM" border="0" height="354" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>5</b></span></font><b>：</b>标点符号也会影响处理效果，所以我们也有必要将标点符号去掉。</p>
-<p style="margin-bottom: 0cm"><img src="5.png" name="Picture 5" align="BOTTOM" border="0" height="207" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/5.png" name="Picture 5" align="BOTTOM" border="0" height="207" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>6</b></span></font><b>：</b>英语中相同的词有词形的变化，比如<font face="Calibri, serif"><span lang="en-US">is</span></font>的过去式就是<font face="Calibri, serif"><span lang="en-US">was</span></font>。如果我们将不同形但是意义或者词根相同的词视作不同的词处理，这样会造成数据稀疏，最终影响结果。如下是对词做词根化（<font face="Calibri, serif"><span lang="en-US">stem</span></font>）处理，使用了<font face="Calibri, serif"><span lang="en-US">Lancaster</span></font>方法。</p>
-<p style="margin-bottom: 0cm"><img src="6.png" name="Picture 6" align="BOTTOM" border="0" height="152" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/6.png" name="Picture 6" align="BOTTOM" border="0" height="152" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>7</b></span></font><b>：</b>我们观察了上面步骤的结果，发现在这个实例中，同根不同形的词并不多，所以为了表达的方便（词根可读性差），我们并没有采用词根处理后的结果，而是直接使用步骤<font face="Calibri, serif"><span lang="en-US">5</span></font>的结果。</p>
-<p style="margin-bottom: 0cm"><img src="7.png" name="Picture 7" align="BOTTOM" border="0" height="125" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/7.png" name="Picture 7" align="BOTTOM" border="0" height="125" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>8</b></span></font><b>：</b>使用<font face="Calibri, serif"><span lang="en-US">gensim</span></font>中的<font face="Calibri, serif"><span lang="en-US">corpora</span></font>类，生成已知<font face="Calibri, serif"><span lang="en-US">queries</span></font>的语料库对象，其中的<font face="Calibri, serif"><span lang="en-US">dictionary</span></font>是该语料库的字典。从<font face="Calibri, serif"><span lang="en-US">token2id</span></font>可以得到词和其编号的映射关系。</p>
-<p style="margin-bottom: 0cm"><img src="8.png" name="Picture 9" align="BOTTOM" border="0" height="358" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/8.png" name="Picture 9" align="BOTTOM" border="0" height="358" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>9</b></span></font><b>：</b>使用词的序号来表示词（<font face="Calibri, serif"><span lang="en-US">bag
 of word</span></font>），从而得到新的数组<font face="Calibri, serif"><span lang="en-US">corpus</span></font>。</p>
-<p style="margin-bottom: 0cm"><img src="9.png" name="Picture 10" align="BOTTOM" border="0" height="111" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/9.png" name="Picture 10" align="BOTTOM" border="0" height="111" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>10</b></span></font><b>：</b>求出每个词的<font face="Calibri, serif"><span lang="en-US">tfidf</span></font>值，计算方法请参考文本相似性计算（一）——向量空间模型。</p>
-<p style="margin-bottom: 0cm"><img src="10.png" name="Picture 11" align="BOTTOM" border="0" height="426" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/10.png" name="Picture 11" align="BOTTOM" border="0" height="426" width="554"></p>
 <p style="margin-bottom: 0cm">可以通过打印<font face="Calibri, serif"><span lang="en-US">df</span></font>和<font face="Calibri, serif"><span lang="en-US">idf</span></font>值，验证其计算。</p>
-<p style="margin-bottom: 0cm"><img src="10-2.png" name="Picture 12" align="BOTTOM" border="0" height="221" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/10-2.png" name="Picture 12" align="BOTTOM" border="0" height="221" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>11</b></span></font><b>：</b>生成<font face="Calibri, serif"><span lang="en-US">LSI</span></font>模型，我们这里初始化生产<font face="Calibri, serif"><span lang="en-US">3</span></font>个主题（参数可调）。红色为打印的模型信息。</p>
-<p style="margin-bottom: 0cm"><img src="11.png" name="Picture 13" align="BOTTOM" border="0" height="209" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/11.png" name="Picture 13" align="BOTTOM" border="0" height="209" width="554"></p>
 <p style="margin-bottom: 0cm">同时，我们也生成一个<font face="Calibri, serif"><span lang="en-US">LDA</span></font>模型，选择两个主题。</p>
-<p style="margin-bottom: 0cm"><img src="11-2.png" name="Picture 15" align="BOTTOM" border="0" height="136" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/11-2.png" name="Picture 15" align="BOTTOM" border="0" height="136" width="554"></p>
 <p style="margin-bottom: 0cm">我们打印<font face="Calibri, serif"><span lang="en-US">query</span></font>向量映射到主题空间的维度信息。比如第一个<font face="Calibri, serif"><span lang="en-US">query</span></font>，在主题<font face="Calibri, serif"><span lang="en-US">0</span></font>的值是<font face="Calibri, serif"><span lang="en-US">0.34057</span></font>，第<font face="Calibri, serif"><span lang="en-US">1</span></font>个主题的值是<font face="Calibri, serif"><span lang="en-US">-0.206022</span></font>，第<font face="Calibri, serif"><span lang="en-US">2</span></font>个主题是<font face="Calibri, serif"><span lang="en-US">0.251632</span></font>。</p>
-<p style="margin-bottom: 0cm"><img src="11-3.png" name="Picture 14" align="BOTTOM" border="0" height="115" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/11-3.png" name="Picture 14" align="BOTTOM" border="0" height="115" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>12</b></span></font><b>：</b>为了方便计算，我们建立所有<font face="Calibri, serif"><span lang="en-US">query</span></font>在主题空间的值存放到相似性计算数组索引对象中，方便相似性计算，例如<font face="Calibri, serif"><span lang="en-US">index_lsi</span></font>。</p>
-<p style="margin-bottom: 0cm"><img src="12.png" name="Picture 16" align="BOTTOM" border="0" height="79" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/12.png" name="Picture 16" align="BOTTOM" border="0" height="79" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>13</b></span></font><b>：</b>我们将要处理的两个<font face="Calibri, serif"><span lang="en-US">query</span></font>，通过字典，得到词序号向量。</p>
-<p style="margin-bottom: 0cm"><a name="_GoBack"></a><img src="13.png" name="Picture 17" align="BOTTOM" border="0" height="148" width="454"></p>
+<p style="margin-bottom: 0cm"><a name="_GoBack"></a><img src="images\13.png" name="Picture 17" align="BOTTOM" border="0" height="148" width="454"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>14</b></span></font><b>：
 </b>将上述<font face="Calibri, serif"><span lang="en-US">query1</span></font>和<font face="Calibri, serif"><span lang="en-US">2</span></font>通过<font face="Calibri, serif"><span lang="en-US">LSI</span></font>变换得到在主题空间的向量<font face="Calibri, serif"><span lang="en-US">query_lsi_1</span></font>和<font face="Calibri, serif"><span lang="en-US">query_lsi_2</span></font>。然后让其和相似性矩阵<font face="Calibri, serif"><span lang="en-US">index_lsi</span></font>，计算其与每个<font face="Calibri, serif"><span lang="en-US">queries</span></font>的相似度（余弦相似计算）。结果是一个相似度列表<font face="Calibri, serif"><span lang="en-US">query_1_sims</span></font>。可以看出自己和自己最相似<font face="Calibri, serif"><span lang="en-US">0.99955</span></font>（计算精度，造成不是<font face="Calibri, serif"><span lang="en-US">100%</span></font>相似）；与第<font face="Calibri, serif"><span lang="en-US">1</span></font>个的相似度为<font face="Calibri, serif"><span lang="en-US">0.35835</span></font>。通过对结果排序，得到最相似的<font face="Calibri, serif"><span lang="en-US">queries</span></font>是<font face="Calibri, serif"><span lang="en-US">0</span></font>，<font face="Calibri, serif"><span lang="en-US">3</span></font>，<font face="Calibri, serif"><span lang="en-US">2</span></font>。</p>
-<p style="margin-bottom: 0cm"><img src="14.png" name="Picture 18" align="BOTTOM" border="0" height="170" width="554"></p>
+<p style="margin-bottom: 0cm"><img src="/images/14.png" name="Picture 18" align="BOTTOM" border="0" height="170" width="554"></p>
 <p style="margin-bottom: 0cm"><b>步骤</b><font face="Calibri, serif"><span lang="en-US"><b>15</b></span></font><b>：</b>将目标<font face="Calibri, serif"><span lang="en-US">query1</span></font>和<font face="Calibri, serif"><span lang="en-US">2</span></font>的主题空间向量（二维，包含主题编号）转换成空间向量模型（一维，只有主题维度值）。然后通过余弦距离计算公式，求出它们在主题空间的距离，距离越大，越不相似。</p>
-<p style="margin-bottom: 0cm"><img src="15.png" name="Picture 19" align="BOTTOM" border="0" height="104" width="388"></p>
+<p style="margin-bottom: 0cm"><img src="/images/15.png" name="Picture 19" align="BOTTOM" border="0" height="104" width="388"></p>
 <p style="margin-bottom: 0cm">到这里，整个相似性文本计算过程就结束了。我们了解了用自然语言处理工具和主题空间模型工具，计算文本相似性的整个流程。根据任务的不同，每个步骤可能会有细微的不同，但是大同小异。<font face="Calibri, serif"><span lang="en-US">Gensim</span></font>以其高效和开放性被广泛使用，同时它提供了很好的接口，方便开发者在实际的任务中使用。</p>
 <h3 class="cjk">参考文献：</h3>
 <p style="margin-bottom: 0cm"><font face="Calibri, serif"><span lang="en-US"><a href="http://www.52nlp.cn/lda-math-%E8%AE%A4%E8%AF%86betadirichlet%E5%88%86%E5%B8%831"><font style="font-size: 6pt" size="1">http://www.52nlp.cn/lda-math-%E8%AE%A4%E8%AF%86betadirichlet%E5%88%86%E5%B8%831</font></a></span></font></p>
